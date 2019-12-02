@@ -7,3 +7,7 @@ docs/build
 htmlcov
 .docker
 .idea/
+
+
+outDir/
+inputDir/
