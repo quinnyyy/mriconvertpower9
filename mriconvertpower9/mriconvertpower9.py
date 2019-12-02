@@ -1,4 +1,4 @@
-#!/usr/bin/env python                                            
+#!/usr/bin/env python3                                            
 #
 # mriconvertpower9 fs ChRIS plugin app
 #
@@ -96,10 +96,10 @@ class Mriconvertpower9(ChrisApp):
     SELFPATH                = os.path.dirname(os.path.abspath(__file__))
     SELFEXEC                = os.path.basename(__file__)
     EXECSHELL               = 'python3'
-    TITLE                   = 'FreeSurfer's mriconvert on Power9'
+    TITLE                   = 'FreeSurfers mriconvert on Power9'
     CATEGORY                = ''
     TYPE                    = 'fs'
-    DESCRIPTION             = 'FreeSurfer's mriconvert on Power9'
+    DESCRIPTION             = 'FreeSurfers mriconvert on Power9'
     DOCUMENTATION           = 'http://wiki'
     VERSION                 = '0.1'
     ICON                    = '' # url of an icon image
@@ -131,13 +131,32 @@ class Mriconvertpower9(ChrisApp):
         Define the CLI arguments accepted by this plugin app.
         Use self.add_argument to specify a new app argument.
         """
+        self.add_argument('--exec', dest='exec', type=str, optional=True, help='the conversion program to use', default = '/usr/bin/convert')
+
+        self.add_argument('--inputFile', dest='inputFile', type=str, optional=True, help='the input file to convert', default='')
+
+        self.add_argument('--outputFile', dest='outputFile', type=str, optional=True, help='the output file', default = '')
+
+        self.add_argument('--inputdir', dest='inputdir', type=str, optional=False, help='blah', default='')
 
     def run(self, options):
         """
         Define the code to be run by this plugin app.
         """
-        print(Gstr_title)
-        print('Version: %s' % self.get_version())
+        print("hello world from run")
+        if not len(options.inputFile):
+                print("ERROR: No input file has been specified!")
+                print("You must specify an input file relative to the input directory.")
+                sys.exit(1)
+
+        if not len(options.outputFile):
+                print("ERROR: No output file has been specified!")
+                print("You must specicy an output file relative to the output directory.")
+                sys.exit(1)
+
+        str_cmd = '%s %s/%s %s/%s' % (options.exec, options.inputdir, options.inputFile, options.outputdir, options.outputFile)
+        os.system(str_cmd)
+
 
     def show_man_page(self):
         """
@@ -148,5 +167,6 @@ class Mriconvertpower9(ChrisApp):
 
 # ENTRYPOINT
 if __name__ == "__main__":
+    print("The main is starting lets goooo")
     chris_app = Mriconvertpower9()
     chris_app.launch()

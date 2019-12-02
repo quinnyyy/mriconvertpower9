@@ -23,16 +23,20 @@
 
 
 
-FROM fnndsc/ubuntu-python3:latest
+FROM docker.io/quinnyyy/test123:test2
 MAINTAINER fnndsc "dev@babymri.org"
 
+ENV FREESURFER_HOME="/freesurferhome"
 ENV APPROOT="/usr/src/mriconvertpower9"
 COPY ["mriconvertpower9", "${APPROOT}"]
 COPY ["requirements.txt", "${APPROOT}"]
 
 WORKDIR $APPROOT
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt -t .
 
-CMD ["mriconvertpower9.py", "--help"]
+#CMD ["./mriconvertpower9.py", " ./output"]
+CMD ["./mriconvertpower9.py", "--exec", "/usr/bin/mri_convert", "--inputFile", "0001-1.3.12.2.1107.5.2.19.45152.2013030808110258929186035.dcm", "--outputFile", "image.nii", "--inputdir", "input", "output"]
+#CMD ["ls"]
+#CMD ["./mriconvertpower9.py", "--help"]
